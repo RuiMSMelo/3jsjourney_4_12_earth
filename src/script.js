@@ -11,6 +11,7 @@ import atmosphereFragmentShader from './shaders/atmosphere/fragment.glsl'
  */
 // Debug
 const gui = new GUI()
+gui.close()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -29,30 +30,29 @@ earthParameters.cloudIntensity = 0.5
 earthParameters.atmosphereDayColor = '#00aaff'
 earthParameters.atmosphereTwilightColor = '#ff6600'
 
-gui
-  .add(earthParameters, 'cloudIntensity')
-  .min(0)
-  .max(1)
-  .step(0.001)
-  .onChange((value) => {
-    earthMaterial.uniforms.uCloudIntensity.value = value
-  })
+gui.add(earthParameters, 'cloudIntensity')
+    .min(0)
+    .max(1)
+    .step(0.001)
+    .onChange((value) => {
+        earthMaterial.uniforms.uCloudIntensity.value = value
+    })
 
 gui.addColor(earthParameters, 'atmosphereDayColor').onChange(() => {
-  earthMaterial.uniforms.uAtmosphereDayColor.value.set(
-    earthParameters.atmosphereDayColor
-  )
-  atmosphereMaterial.uniforms.uAtmosphereDayColor.value.set(
-    earthParameters.atmosphereDayColor
-  )
+    earthMaterial.uniforms.uAtmosphereDayColor.value.set(
+        earthParameters.atmosphereDayColor
+    )
+    atmosphereMaterial.uniforms.uAtmosphereDayColor.value.set(
+        earthParameters.atmosphereDayColor
+    )
 })
 gui.addColor(earthParameters, 'atmosphereTwilightColor').onChange(() => {
-  earthMaterial.uniforms.uAtmosphereTwilightColor.value.set(
-    earthParameters.atmosphereTwilightColor
-  )
-  atmosphereMaterial.uniforms.uAtmosphereTwilightColor.value.set(
-    earthParameters.atmosphereTwilightColor
-  )
+    earthMaterial.uniforms.uAtmosphereTwilightColor.value.set(
+        earthParameters.atmosphereTwilightColor
+    )
+    atmosphereMaterial.uniforms.uAtmosphereTwilightColor.value.set(
+        earthParameters.atmosphereTwilightColor
+    )
 })
 
 // Textures
@@ -65,48 +65,48 @@ earthNightTexture.colorSpace = THREE.SRGBColorSpace
 earthNightTexture.anisotropy = 8
 
 const earthSpecularCloudsTexture = textureLoader.load(
-  './earth/specularClouds.jpg'
+    './earth/specularClouds.jpg'
 )
 earthSpecularCloudsTexture.anisotropy = 8
 
 // Mesh
 const earthGeometry = new THREE.SphereGeometry(2, 64, 64)
 const earthMaterial = new THREE.ShaderMaterial({
-  vertexShader: earthVertexShader,
-  fragmentShader: earthFragmentShader,
-  uniforms: {
-    uDayTexture: new THREE.Uniform(earthDayTexture),
-    uNightTexture: new THREE.Uniform(earthNightTexture),
-    uSpecularCloudsTexture: new THREE.Uniform(earthSpecularCloudsTexture),
-    uSunDirection: new THREE.Uniform(new THREE.Vector3(0, 0, 1)),
-    uCloudIntensity: new THREE.Uniform(earthParameters.cloudIntensity),
-    uAtmosphereDayColor: new THREE.Uniform(
-      new THREE.Color(earthParameters.atmosphereDayColor)
-    ),
-    uAtmosphereTwilightColor: new THREE.Uniform(
-      new THREE.Color(earthParameters.atmosphereTwilightColor)
-    ),
-  },
+    vertexShader: earthVertexShader,
+    fragmentShader: earthFragmentShader,
+    uniforms: {
+        uDayTexture: new THREE.Uniform(earthDayTexture),
+        uNightTexture: new THREE.Uniform(earthNightTexture),
+        uSpecularCloudsTexture: new THREE.Uniform(earthSpecularCloudsTexture),
+        uSunDirection: new THREE.Uniform(new THREE.Vector3(0, 0, 1)),
+        uCloudIntensity: new THREE.Uniform(earthParameters.cloudIntensity),
+        uAtmosphereDayColor: new THREE.Uniform(
+            new THREE.Color(earthParameters.atmosphereDayColor)
+        ),
+        uAtmosphereTwilightColor: new THREE.Uniform(
+            new THREE.Color(earthParameters.atmosphereTwilightColor)
+        ),
+    },
 })
 const earth = new THREE.Mesh(earthGeometry, earthMaterial)
 scene.add(earth)
 
 // Atmosphere
 const atmosphereMaterial = new THREE.ShaderMaterial({
-  vertexShader: atmosphereVertexShader,
-  fragmentShader: atmosphereFragmentShader,
-  uniforms: {
-    uSunDirection: new THREE.Uniform(new THREE.Vector3(0, 0, 1)),
-    uCloudIntensity: new THREE.Uniform(earthParameters.cloudIntensity),
-    uAtmosphereDayColor: new THREE.Uniform(
-      new THREE.Color(earthParameters.atmosphereDayColor)
-    ),
-    uAtmosphereTwilightColor: new THREE.Uniform(
-      new THREE.Color(earthParameters.atmosphereTwilightColor)
-    ),
-  },
-  side: THREE.BackSide,
-  transparent: true,
+    vertexShader: atmosphereVertexShader,
+    fragmentShader: atmosphereFragmentShader,
+    uniforms: {
+        uSunDirection: new THREE.Uniform(new THREE.Vector3(0, 0, 1)),
+        uCloudIntensity: new THREE.Uniform(earthParameters.cloudIntensity),
+        uAtmosphereDayColor: new THREE.Uniform(
+            new THREE.Color(earthParameters.atmosphereDayColor)
+        ),
+        uAtmosphereTwilightColor: new THREE.Uniform(
+            new THREE.Color(earthParameters.atmosphereTwilightColor)
+        ),
+    },
+    side: THREE.BackSide,
+    transparent: true,
 })
 const atmosphere = new THREE.Mesh(earthGeometry, atmosphereMaterial)
 atmosphere.scale.set(1.04, 1.04, 1.04)
@@ -120,22 +120,22 @@ const sunDirection = new THREE.Vector3()
 
 // Debug
 const debugSun = new THREE.Mesh(
-  new THREE.IcosahedronGeometry(0.1, 2),
-  new THREE.MeshBasicMaterial()
+    new THREE.IcosahedronGeometry(0.1, 2),
+    new THREE.MeshBasicMaterial()
 )
 scene.add(debugSun)
 
 // Update
 const updateSun = () => {
-  // Sun direction
-  sunDirection.setFromSpherical(sunSpherical)
+    // Sun direction
+    sunDirection.setFromSpherical(sunSpherical)
 
-  //Debug
-  debugSun.position.copy(sunDirection).multiplyScalar(5)
+    //Debug
+    debugSun.position.copy(sunDirection).multiplyScalar(5)
 
-  // Uniforms
-  earthMaterial.uniforms.uSunDirection.value.copy(sunDirection)
-  atmosphereMaterial.uniforms.uSunDirection.value.copy(sunDirection)
+    // Uniforms
+    earthMaterial.uniforms.uSunDirection.value.copy(sunDirection)
+    atmosphereMaterial.uniforms.uSunDirection.value.copy(sunDirection)
 }
 updateSun()
 
@@ -147,24 +147,24 @@ gui.add(sunSpherical, 'theta').min(-Math.PI).max(Math.PI).onChange(updateSun)
  * Sizes
  */
 const sizes = {
-  width: window.innerWidth,
-  height: window.innerHeight,
-  pixelRatio: Math.min(window.devicePixelRatio, 2),
+    width: window.innerWidth,
+    height: window.innerHeight,
+    pixelRatio: Math.min(window.devicePixelRatio, 2),
 }
 
 window.addEventListener('resize', () => {
-  // Update sizes
-  sizes.width = window.innerWidth
-  sizes.height = window.innerHeight
-  sizes.pixelRatio = Math.min(window.devicePixelRatio, 2)
+    // Update sizes
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
+    sizes.pixelRatio = Math.min(window.devicePixelRatio, 2)
 
-  // Update camera
-  camera.aspect = sizes.width / sizes.height
-  camera.updateProjectionMatrix()
+    // Update camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
 
-  // Update renderer
-  renderer.setSize(sizes.width, sizes.height)
-  renderer.setPixelRatio(sizes.pixelRatio)
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height)
+    renderer.setPixelRatio(sizes.pixelRatio)
 })
 
 /**
@@ -172,10 +172,10 @@ window.addEventListener('resize', () => {
  */
 // Base camera
 const camera = new THREE.PerspectiveCamera(
-  25,
-  sizes.width / sizes.height,
-  0.1,
-  100
+    25,
+    sizes.width / sizes.height,
+    0.1,
+    100
 )
 camera.position.x = 20
 camera.position.y = 10
@@ -190,8 +190,8 @@ controls.enableDamping = true
  * Renderer
  */
 const renderer = new THREE.WebGLRenderer({
-  canvas: canvas,
-  antialias: true,
+    canvas: canvas,
+    antialias: true,
 })
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(sizes.pixelRatio)
@@ -203,18 +203,18 @@ renderer.setClearColor('#000011')
 const clock = new THREE.Clock()
 
 const tick = () => {
-  const elapsedTime = clock.getElapsedTime()
+    const elapsedTime = clock.getElapsedTime()
 
-  earth.rotation.y = elapsedTime * 0.1
+    earth.rotation.y = elapsedTime * 0.1
 
-  // Update controls
-  controls.update()
+    // Update controls
+    controls.update()
 
-  // Render
-  renderer.render(scene, camera)
+    // Render
+    renderer.render(scene, camera)
 
-  // Call tick again on the next frame
-  window.requestAnimationFrame(tick)
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick)
 }
 
 tick()
