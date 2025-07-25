@@ -1,16 +1,3 @@
-# Three.js Journey
+# Interactive Earth Shader
 
-## Setup
-Download [Node.js](https://nodejs.org/en/download/).
-Run this followed commands:
-
-``` bash
-# Install dependencies (only the first time)
-npm install
-
-# Run the local server at localhost:8080
-npm run dev
-
-# Build for production in the dist/ directory
-npm run build
-```
+This project features a fully interactive 3D Earth built with Three.js and custom GLSL shaders. The globe rotates smoothly based on user input, with one hemisphere illuminated to represent daytime and the other shaded to depict nighttime. The shader effects simulate realistic lighting and atmospheric transitions, demonstrating advanced knowledge of WebGL and shader development.
